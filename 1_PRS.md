@@ -20,17 +20,7 @@ auc(rocAuc) # 0.662
 ci(rocAuc, of="auc") # 0.637-0.685 (DeLong)
 coords(rocAuc, "best") # threshold: 0.00266 # specificity: 0.60 # sensitivity: 0.66
 thresh <- coords(rocAuc, "best")[1]
-
-png("TEST_AUC_RBD-FDR_cont.png", width = 5.5, height = 4, units = "in", res = 300)
-
-rocobj <- plot.roc(RBD_FDR$PHENO, RBD_FDR$SCORE,  main="ROC curve RBD vs controls",
-                   percent=FALSE,  ci=TRUE, print.auc=TRUE, col = "darkred")
-ciobj <- ci.se(rocobj, specificities=seq(0, 1, 0.05))
-plot(ciobj, type="shape", col="gray90")
-
-dev.off()
 ```
-![RBD FDR AUC](TEST_AUC_RBD-FDR_cont.png)
 
 ## Comparing RBD PRS in PD +/- RBD
 
@@ -52,7 +42,10 @@ rocAuc <- roc(PDnoRBD$PHENO, PDnoRBD$SCORE)
 auc(rocAuc) # 0.5475
 ci(rocAuc, of="auc") # 95% CI: 0.5048-0.5903 (DeLong)
 coords(rocAuc, "best") # threshold: 0.0004375 # specificity: 0.53 # sensitivity: 0.54
+```
 
+## Making ROC curve
+```R
 png("ROC-compare_RBD-FDR_PRS.png", width = 6.5, height = 4.8, units = "in", res = 300)
 
 rocobj <- plot.roc(RBD_FDR$PHENOT, RBD_FDR$SCORE,  main="ROC curve: RBD Polygenic Risk Score",
