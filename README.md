@@ -1,2 +1,3 @@
-# RBD_GWAS
-Genome-wide association study and downstream analyses for REM sleep behavior disorder 
+# Genome-wide association study of REM sleep behavior disorder
+Preprint: TBD  
+Published: TBD  
