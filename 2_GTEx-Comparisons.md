@@ -35,4 +35,4 @@ hm + facet_wrap(~Gene, scales = "free_x")
 
 ggsave("gtex_v8_PDvRBD.png", dpi=300)
 ```
-![GTEx_Heatmap](gtex_v8_PDvRBD.png)
+![GTEx_Heatmap](Figure_2.png)
