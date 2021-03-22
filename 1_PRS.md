@@ -32,6 +32,48 @@ dev.off()
 ```
 ![RBD FDR AUC](TEST_AUC_RBD-FDR_cont.png)
 
+## Comparing RBD PRS in PD +/- RBD
+
+```R
+PDwRBD_RBD = fread("PDwRBD_rbd-fdr.profile", header = T)
+PDnoRBD_RBD = fread("PDnoRBD_rbd-fdr.profile", header = T)
+
+PDwRBD_RBD = subset(PDwRBD_RBD, PHENO != -9)
+PDnoRBD_RBD = subset(PDnoRBD_RBD, PHENO != -9)
+
+# PD+RBD
+rocAuc <- roc(PDwRBD$PHENO, PDwRBD$SCORE)
+auc(rocAuc) # 0.5969
+ci(rocAuc, of="auc") # 95% CI: 0.5597-0.6341 (DeLong)
+coords(rocAuc, "best") # threshold: 0.0008 # specificity 0.55 # sensitivity: 0.60
+
+# PD-RBD
+rocAuc <- roc(PDnoRBD$PHENO, PDnoRBD$SCORE)
+auc(rocAuc) # 0.5475
+ci(rocAuc, of="auc") # 95% CI: 0.5048-0.5903 (DeLong)
+coords(rocAuc, "best") # threshold: 0.0004375 # specificity: 0.53 # sensitivity: 0.54
+
+png("ROC-compare_RBD-FDR_PRS.png", width = 6.5, height = 4.8, units = "in", res = 300)
+
+rocobj <- plot.roc(RBD_FDR$PHENOT, RBD_FDR$SCORE,  main="ROC curve: RBD Polygenic Risk Score",
+                   percent=FALSE,  ci=TRUE, print.auc=TRUE, print.auc.x = .3, print.auc.y = .6, col = "darkred")
+
+rocobj <- plot.roc(PDwRBD$PHENO, PDwRBD$SCORE,  main="ROC curve: PD +/- RBD vs controls: RBD Profile",
+                   percent=FALSE,  ci=TRUE, print.auc=TRUE, print.auc.x = .3, print.auc.y = .5, col = "#999999", add = TRUE)
+
+rocobj <- plot.roc(PDnoRBD$PHENO, PDnoRBD$SCORE,
+                   percent=FALSE,  ci=TRUE, print.auc=TRUE, col = "darkblue", print.auc.x = .3, print.auc.y = .4, add = TRUE)
+
+legend("bottomright", 
+       legend = c("iRBD", "PD+RBD", "PD-RBD"), 
+       col = c("darkred", "#999999", "darkblue"),
+       lty = c(1, 1, 1),
+       lwd = c(1, 1, 1))
+
+dev.off()
+```
+![PD+/- RBD: PD PRS](ROC-compare_RBD-FDR_PRS.png)
+
 ### Quartile analysis
 ```R
 RBD_FDR <- subset(RBD_FDR, PHENO != -9)
@@ -118,48 +160,6 @@ x + labs(title = "Risk for disease by RBD PRS Quartile", x="RBD PRS Quartile", y
 dev.off()
 ````
 ![RBD-FDR Quartile Plot](RBD-FDR_PRS_Quartiles.png)
-
-## Comparing RBD PRS in PD +/- RBD
-
-```R
-PDwRBD_RBD = fread("PDwRBD_rbd-fdr.profile", header = T)
-PDnoRBD_RBD = fread("PDnoRBD_rbd-fdr.profile", header = T)
-
-PDwRBD_RBD = subset(PDwRBD_RBD, PHENO != -9)
-PDnoRBD_RBD = subset(PDnoRBD_RBD, PHENO != -9)
-
-# PD+RBD
-rocAuc <- roc(PDwRBD$PHENO, PDwRBD$SCORE)
-auc(rocAuc) # 0.5969
-ci(rocAuc, of="auc") # 95% CI: 0.5597-0.6341 (DeLong)
-coords(rocAuc, "best") # threshold: 0.0008 # specificity 0.55 # sensitivity: 0.60
-
-# PD-RBD
-rocAuc <- roc(PDnoRBD$PHENO, PDnoRBD$SCORE)
-auc(rocAuc) # 0.5475
-ci(rocAuc, of="auc") # 95% CI: 0.5048-0.5903 (DeLong)
-coords(rocAuc, "best") # threshold: 0.0004375 # specificity: 0.53 # sensitivity: 0.54
-
-png("ROC-compare_RBD-FDR_PRS.png", width = 6.5, height = 4.8, units = "in", res = 300)
-
-rocobj <- plot.roc(RBD_FDR$PHENOT, RBD_FDR$SCORE,  main="ROC curve: RBD Polygenic Risk Score",
-                   percent=FALSE,  ci=TRUE, print.auc=TRUE, print.auc.x = .3, print.auc.y = .6, col = "darkred")
-
-rocobj <- plot.roc(PDwRBD$PHENO, PDwRBD$SCORE,  main="ROC curve: PD +/- RBD vs controls: RBD Profile",
-                   percent=FALSE,  ci=TRUE, print.auc=TRUE, print.auc.x = .3, print.auc.y = .5, col = "#999999", add = TRUE)
-
-rocobj <- plot.roc(PDnoRBD$PHENO, PDnoRBD$SCORE,
-                   percent=FALSE,  ci=TRUE, print.auc=TRUE, col = "darkblue", print.auc.x = .3, print.auc.y = .4, add = TRUE)
-
-legend("bottomright", 
-       legend = c("iRBD", "PD+RBD", "PD-RBD"), 
-       col = c("darkred", "#999999", "darkblue"),
-       lty = c(1, 1, 1),
-       lwd = c(1, 1, 1))
-
-dev.off()
-```
-![PD+/- RBD: PD PRS](ROC-compare_RBD-FDR_PRS.png)
 
 ## Testing genetically correlated conditions 
 ```R
