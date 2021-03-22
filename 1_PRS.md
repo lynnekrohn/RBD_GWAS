@@ -65,7 +65,7 @@ legend("bottomright",
 
 dev.off()
 ```
-![PD+/- RBD: PD PRS](ROC-compare_RBD-FDR_PRS.png)
+![PD+/- RBD: PD PRS](Figure_1B.png)
 
 ### Quartile analysis
 ```R
@@ -152,7 +152,7 @@ x + labs(title = "Risk for disease by RBD PRS Quartile", x="RBD PRS Quartile", y
 
 dev.off()
 ````
-![RBD-FDR Quartile Plot](RBD-FDR_PRS_Quartiles.png)
+![RBD-FDR Quartile Plot](Figure_1C.png)
 
 ## Testing genetically correlated conditions 
 ```R
