@@ -44,7 +44,7 @@ irbd5 + theme(legend.position = "none") + theme(plot.title = element_text(hjust 
 
 dev.off()
 ```
-![iRBD beta-beta](iRBD_GWAS_beta-beta_tricolor.png)
+![iRBD beta-beta](Figure_5A.png)
 
 **23andMe cohort: PD+RBD**
 ```R
@@ -73,7 +73,7 @@ pdwrbd5 + theme(plot.title = element_text(hjust = 0.5))
 
 dev.off()
 ````
-![PDwRBD beta-beta](23andMe_PDwRBD_GWAS_beta-beta_tricolor.png)
+![PDwRBD beta-beta](Figure_5B.png)
 
 **LBD:**
 ```R
@@ -101,6 +101,6 @@ dlb5 + theme(plot.title = element_text(hjust = 0.5))
 
 dev.off()
 ```
-![DLB beta-beta](LBD_beta-beta.jpg)
+![DLB beta-beta](Figure_5C.jpg)
 
 
