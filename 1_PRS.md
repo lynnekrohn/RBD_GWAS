@@ -154,3 +154,52 @@ dev.off()
 ````
 ![RBD-FDR Quartile Plot](Figure_1C.png)
 
+## Analyzing PRS effects on RBD age at onset and rate of conversion
+# Linear regression:
+```R
+data = read.csv("CONVERSION/RBD_conversion_Nov2020.csv", header = T)
+
+data$prs_quartile <- with(data, cut(RBD_PRS, 
+                                      breaks=quantile(RBD_PRS, probs=seq(0,1, by=0.25), na.rm=TRUE), 
+                                      include.lowest=TRUE, labels = 1:4))
+                                      
+dao = subset(data, prs_quartile != "NA")
+dao = subset(dao, AAO_RBD != "NA")
+
+x=as.numeric(dao$RBD_PRS)
+length(x)
+y=as.numeric(dao$AAO_RBD)
+length(y)
+
+dao_fit = glm(y ~ x)
+summary(dao_fit) # estimate=38.0, se=54.62, p=0.49
+
+aao_cor = ggplot(dao, aes(x, y)) + geom_point() + geom_smooth(method = "lm",
+                                                           formula = y ~ x)
+aao_cor = aao_cor + xlab("RBD polygenic risk score") + ylab("Age at Onset RBD") 
+ggsave(aao_cor, file="scatter_AAO-RBD.jpeg")
+
+```
+# Kaplan-Meier Survival:
+```R
+data$event = ifelse(data$Neurodegeneration == "N", 1, 2)
+
+da = subset(data, prs_quartile != "NA")
+da = subset(da, AAO_Time_to_Conversion != "NA")
+converted = subset(da, event == 2)
+
+surv_object <- Surv(time = as.numeric(da$AAO_Time_to_Conversion), event = da$event)
+km_fit <- survfit(surv_object ~ da$prs_quartile, data = da)
+da = subset(da, AAO_Time_to_Conversion <= 25)
+
+palette = c("burlywood2", "brown3", "darkred", "black")
+
+png("KMSurv_AAO_cutOff25years.png", width = 5.5, height = 4, units = "in", res = 300)
+km <- ggsurvplot(km_fit, data = da, censor.shape="*", censor.size = 5, risk.table=F, 
+                  ncensor.plot=F, pval=TRUE, palette = palette,
+                 legend.labs=c("Quartile 1", "2", "3", "4"), xlab="Time to Conversion (Years)",
+                 ggtheme=theme_classic())
+km <- km + ggtitle("Time to Conversion to Synucleinopathy (AAO)")
+
+dev.off()
+```
