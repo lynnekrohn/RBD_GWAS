@@ -155,7 +155,7 @@ dev.off()
 ![RBD-FDR Quartile Plot](Figure_1C.png)
 
 ## Analyzing PRS effects on RBD age at onset and rate of conversion
-# Linear regression:
+#### Linear regression:
 ```R
 data = read.csv("CONVERSION/RBD_conversion_Nov2020.csv", header = T)
 
@@ -180,7 +180,7 @@ aao_cor = aao_cor + xlab("RBD polygenic risk score") + ylab("Age at Onset RBD")
 ggsave(aao_cor, file="scatter_AAO-RBD.jpeg")
 
 ```
-# Kaplan-Meier Survival:
+### Kaplan-Meier Survival:
 ```R
 data$event = ifelse(data$Neurodegeneration == "N", 1, 2)
 
