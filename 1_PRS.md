@@ -67,7 +67,7 @@ dev.off()
 ```
 ![PD+/- RBD: PD PRS](Figure_1B.png)
 
-### Quartile analysis
+## Quartile analysis
 ```R
 RBD_FDR <- subset(RBD_FDR, PHENO != -9)
 
@@ -155,7 +155,7 @@ dev.off()
 ![RBD-FDR Quartile Plot](Figure_1C.png)
 
 ## Analyzing PRS effects on RBD age at onset and rate of conversion
-#### Linear regression:
+### Linear regression:
 ```R
 data = read.csv("CONVERSION/RBD_conversion_Nov2020.csv", header = T)
 
