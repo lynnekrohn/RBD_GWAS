@@ -180,6 +180,7 @@ aao_cor = aao_cor + xlab("RBD polygenic risk score") + ylab("Age at Onset RBD")
 ggsave(aao_cor, file="scatter_AAO-RBD.jpeg")
 
 ```
+![RBD_PRS_AAO](scatter_AAO-RBD.jpeg)
 ### Kaplan-Meier Survival:
 ```R
 data$event = ifelse(data$Neurodegeneration == "N", 1, 2)
@@ -203,3 +204,4 @@ km <- km + ggtitle("Time to Conversion to Synucleinopathy (AAO)")
 
 dev.off()
 ```
+![RBD_PRS_KM](KMSurv_AAO_cutOff25years.png)
