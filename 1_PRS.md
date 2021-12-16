@@ -174,13 +174,8 @@ length(y)
 dao_fit = glm(y ~ x)
 summary(dao_fit) # estimate=38.0, se=54.62, p=0.49
 
-aao_cor = ggplot(dao, aes(x, y)) + geom_point() + geom_smooth(method = "lm",
-                                                           formula = y ~ x)
-aao_cor = aao_cor + xlab("RBD polygenic risk score") + ylab("Age at Onset RBD") 
-ggsave(aao_cor, file="scatter_AAO-RBD.jpeg")
-
 ```
-![RBD_PRS_AAO](scatter_AAO-RBD.jpeg)
+
 ### Kaplan-Meier Survival:
 ```R
 data$event = ifelse(data$Neurodegeneration == "N", 1, 2)
